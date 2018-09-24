@@ -1,6 +1,7 @@
 plugins {
     id 'com.enonic.xp.app' version '1.1.0'
     id 'com.enonic.defaults' version '1.0.3'
+    id "com.moowork.node" version '1.1.1'
     id 'maven'
 }
 
@@ -34,15 +35,16 @@ repositories {
 //──────────────────────────────────────────────────────────────────────────────
 // Generate documentation
 //──────────────────────────────────────────────────────────────────────────────
-task generate_docs( type: Exec ) {
-    executable 'npm'
+task generate_docs( type: NpmTask ) {
     args = ['run', 'generate-docs']
     mustRunAfter 'build'
 }
 
-task copy_urijs( type: Exec ) {
-    executable 'npm'
-    args = ['run', 'copyUriJs']
+task copy_urijs( type: Copy ) {
+    description = 'Copy UriJS libs.'
+    from fileTree(dir: "node_modules/urijs", includes: ["**/*.js", "**/*.json"]).files
+    into 'build/resources/main/site/lib'
+    includeEmptyDirs = false
 }
 processResources.dependsOn.add( copy_urijs )
 
