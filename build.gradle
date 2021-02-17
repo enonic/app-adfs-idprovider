@@ -2,6 +2,7 @@ plugins {
     id 'maven-publish'
     id 'com.enonic.defaults' version '2.0.1'
     id 'com.enonic.xp.app' version '2.0.0'
+    id 'com.github.node-gradle.node' version '3.0.1'
 }
 
 app {
@@ -19,15 +20,14 @@ dependencies {
     include "com.enonic.xp:lib-context:${xpVersion}"
     include "com.enonic.xp:lib-io:${xpVersion}"
     include "com.enonic.xp:lib-portal:${xpVersion}"
-    include "com.enonic.lib:lib-thymeleaf:2.0.0"
-    include 'com.enonic.lib:lib-http-client:2.0.0'
+    include "com.enonic.lib:lib-thymeleaf:2.0.1"
+    include 'com.enonic.lib:lib-http-client:2.2.1'
     include 'com.enonic.lib:text-encoding:1.1.0'
-    include 'com.enonic.lib:lib-util:2.0.0'
+    include 'com.enonic.lib:lib-util:3.0.0'
 }
 
 repositories {
     mavenLocal()
-    mavenCentral()
     jcenter()
     xp.enonicRepo()
 }
@@ -41,7 +41,7 @@ task generate_docs( type: Exec ) {
     mustRunAfter 'build'
 }
 
-task copy_urijs( type: Exec ) {
+task copy_urijs( type: Exec, dependsOn: npmInstall ) {
     executable 'npm'
     args = ['run', 'copyUriJs']
 }
