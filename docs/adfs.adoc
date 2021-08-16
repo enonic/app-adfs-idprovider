@@ -1,6 +1,6 @@
-= Create and configure a Relying Party Trust & an AD FS client
+= Create and configure an ADFS client
 
-* We presuppose that a server with an Active Directory Federation Services is setup.
+* We assume that a server with an Active Directory Federation Services has been set up.
 * The steps and screenshots presented below have been performed on AD FS 4. Except minor renaming, the steps on AD FS 3 are similar.
 * The steps and values are given as an example. Please adapt to your situation
 
