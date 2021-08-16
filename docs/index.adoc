@@ -1,4 +1,6 @@
 = ADFS ID Provider
+:toc: right
+:imagesdir: images
 
 Authenticate your users using Active Directory Federation Services.
 This ID Provider uses the OAuth2 endpoint of your AD FS to authenticate users.
@@ -13,7 +15,7 @@ It is compatible with ADFS 3.0 (Windows Server 2012 R2) and ADFS 4.0 (Windows Se
 *** clientId: ADFS Client ID
 *** resource: Relying Party Trust identifier
 
-image::images/idprov.png[Installation,768]
+image::idprov.png[Installation,768]
 
 * In your Enonic Virtual Hosting configuration, modify the appropriate mappings so that your site or admin interface uses the user store you created.
 
