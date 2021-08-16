@@ -6,7 +6,7 @@ It is compatible with ADFS 3.0 (Windows Server 2012 R2) and ADFS 4.0 (Windows Se
 
 == Configuration
 
-* On your AD FS server, <<adfs.adoc#,create and configure a Relying Party Trust & an ADFS client>>
+* On your AD FS server, xref:adfs.adoc[create and configure a Relying Party Trust & an ADFS client]
 * In your Enonic XP admin interface
 ** In the admin tool "Applications", install the application "ADFS ID Provider" .
 ** In the admin tool "Users", create an Id Provider and configure it to use the ADFS ID Provider.
