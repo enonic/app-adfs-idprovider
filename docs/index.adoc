@@ -22,7 +22,7 @@ image::idprov.png[Installation,768]
     # Use ADFS for a site mysite
     mapping.mysite.host = example.com
     mapping.mysite.source = /
-    mapping.mysite.target = /portal/master/mysite
+    mapping.mysite.target = /site/default/master/mysite
     mapping.mysite.idProvider.adfs-idprovider = default
 
 == How to enable debug logging
