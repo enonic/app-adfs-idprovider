@@ -20,15 +20,12 @@ dependencies {
     include "com.enonic.xp:lib-context:${xpVersion}"
     include "com.enonic.xp:lib-io:${xpVersion}"
     include "com.enonic.xp:lib-portal:${xpVersion}"
-    include "com.enonic.lib:lib-thymeleaf:2.0.1"
-    include 'com.enonic.lib:lib-http-client:2.2.1'
+    include 'com.enonic.lib:lib-http-client:2.3.0'
     include 'com.enonic.lib:text-encoding:1.1.0'
-    include 'com.enonic.lib:lib-util:3.0.0'
 }
 
 repositories {
-    mavenLocal()
-    jcenter()
+    mavenCentral()
     xp.enonicRepo()
 }
 

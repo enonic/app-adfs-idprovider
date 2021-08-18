@@ -32,7 +32,6 @@ var sanitizeName        = lib.adfsIdProvider.auth.sanitizeName.sanitizeName;
 var runAsAdmin          = lib.adfsIdProvider.context.runAsAdmin;
 var toStr               = lib.adfsIdProvider.object.toStr;
 var valueFromFormat     = lib.adfsIdProvider.object.valueFromFormat;
-var forceArray          = lib.enonic.util.data.forceArray;
 var createUser          = lib.xp.auth.createUser;
 var findUsers           = lib.xp.auth.findUsers
 var getIdProviderConfig = lib.xp.auth.getIdProviderConfig;
@@ -195,7 +194,7 @@ function enrichProfileFromJwt(params) {
 	log.debug('idProviderConfig:' + toStr(idProviderConfig));
 
 	if(!idProviderConfig.profile) { return }
-	forceArray(idProviderConfig.profile).forEach(function(property) {
+	[].concat(idProviderConfig.profile).forEach(function(property) {
 		if(property.from && property.to) {
             modifyProfile({
                 key: params.key,
