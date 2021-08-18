@@ -14,11 +14,6 @@ var lib = {
 		context: require('/lib/adfs-id-provider/context'),
 		object:  require('/lib/adfs-id-provider/object')
 	},
-	enonic: {
-		util: {
-			data: require('/lib/util/data')
-		}
-	},
 	xp: {
 		auth:   require('/lib/xp/auth'),
 		portal: require('/lib/xp/portal')

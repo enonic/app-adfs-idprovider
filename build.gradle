@@ -21,7 +21,7 @@ dependencies {
     include "com.enonic.xp:lib-io:${xpVersion}"
     include "com.enonic.xp:lib-portal:${xpVersion}"
     include 'com.enonic.lib:lib-http-client:2.3.0'
-    include 'com.enonic.lib:text-encoding:1.1.0'
+    include 'com.enonic.lib:lib-text-encoding:2.0.0'
 }
 
 repositories {
@@ -29,18 +29,30 @@ repositories {
     xp.enonicRepo()
 }
 
+node {
+    download = true
+    version = '16.0.0'
+}
+
 //──────────────────────────────────────────────────────────────────────────────
 // Generate documentation
 //──────────────────────────────────────────────────────────────────────────────
-task generate_docs( type: Exec ) {
-    executable 'npm'
+task generate_docs( type: NpmTask ) {
     args = ['run', 'generate-docs']
     mustRunAfter 'build'
 }
 
-task copy_urijs( type: Exec, dependsOn: npmInstall ) {
-    executable 'npm'
-    args = ['run', 'copyUriJs']
+task copy_urijs(type: Copy) {
+    from 'node_modules/urijs/src'
+    include '*.js'
+    into "$buildDir/resources/urijs/lib/urijs/src"
 }
-processResources.dependsOn.add( copy_urijs )
 
+processResources {
+    from copy_urijs
+    dependsOn npmInstall
+}
+
+sourceSets.main.resources {
+    srcDir "$buildDir/resources/urijs"
+}
