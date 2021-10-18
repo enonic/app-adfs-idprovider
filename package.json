@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "docdash": "1.2.0",
-    "doctoc": "2.0.1",
+    "doctoc": "2.1.0",
     "jsdoc": "3.6.7",
     "urijs": "1.19.7"
   },
