@@ -14,8 +14,8 @@ app {
 }
 
 dependencies {
-    compile "com.enonic.xp:core-api:${xpVersion}"
-    compile "com.enonic.xp:portal-api:${xpVersion}"
+    implementation "com.enonic.xp:core-api:${xpVersion}"
+    implementation "com.enonic.xp:portal-api:${xpVersion}"
     include "com.enonic.xp:lib-auth:${xpVersion}"
     include "com.enonic.xp:lib-context:${xpVersion}"
     include "com.enonic.xp:lib-io:${xpVersion}"
@@ -32,14 +32,6 @@ repositories {
 node {
     download = true
     version = '16.0.0'
-}
-
-//──────────────────────────────────────────────────────────────────────────────
-// Generate documentation
-//──────────────────────────────────────────────────────────────────────────────
-task generate_docs( type: NpmTask ) {
-    args = ['run', 'generate-docs']
-    mustRunAfter 'build'
 }
 
 task copy_urijs(type: Copy) {
