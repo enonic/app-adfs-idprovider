@@ -9,7 +9,7 @@
     "url": "https://github.com/enonic/app-adfs-idprovider.git"
   },
   "devDependencies": {
-    "urijs": "1.19.8"
+    "urijs": "1.19.9"
   },
   "private": "true"
 }
