@@ -1,0 +1,8 @@
+{
+    "menuItems": [
+      {
+        "title": "Set up an ADFS client",
+        "document": "adfs"
+      }
+    ]
+}
