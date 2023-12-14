@@ -34,7 +34,7 @@ node {
     version = '16.0.0'
 }
 
-task copy_urijs(type: Copy) {
+task copy_urijs( type: Copy, dependsOn: npmInstall ) {
     from 'node_modules/urijs/src'
     include '*.js'
     into "$buildDir/resources/urijs/lib/urijs/src"
@@ -48,3 +48,5 @@ processResources {
 sourceSets.main.resources {
     srcDir "$buildDir/resources/urijs"
 }
+
+jar.dependsOn( copy_urijs )
