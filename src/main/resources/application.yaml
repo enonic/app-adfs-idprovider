@@ -1,0 +1,5 @@
+kind: "Application"
+title: "ADFS ID Provider"
+description: "AD FS ID provider app. Configure in ID provider. Add app to site to logout automatically when access token expires."
+vendorName: "Enonic AS"
+vendorUrl: "http://enonic.com"
