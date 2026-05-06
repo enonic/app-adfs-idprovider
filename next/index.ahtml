@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.26">
-<title>Create and configure an ADFS client</title>
+<title>ADFS ID Provider</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,341 +437,94 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-right">
 <div id="header">
-<h1>Create and configure an ADFS client</h1>
+<h1>ADFS ID Provider</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#check_that_the_endpoints_are_enabled">Check that the endpoints are enabled</a></li>
-<li><a href="#create_a_relying_party_trust">Create a Relying Party Trust</a></li>
-<li><a href="#create_a_rule_to_send_the_ldap_attributes_as_claims">Create a rule to send the LDAP attributes as claims</a></li>
-<li><a href="#add_an_ad_fs_client">Add an AD FS Client</a></li>
-<li><a href="#grant_the_ad_fs_application_permission_to_the_resource_not_necessary_for_adfs_3_0">Grant the AD FS Application permission to the resource (Not necessary for ADFS 3.0)</a></li>
+<li><a href="#configuration">Configuration</a></li>
+<li><a href="#how_to_enable_debug_logging">How to enable debug logging</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
+<div class="paragraph">
+<p>Authenticate your users using Active Directory Federation Services.
+This ID Provider uses the OAuth2 endpoint of your AD FS to authenticate users.
+It is compatible with ADFS 3.0 (Windows Server 2012 R2) and ADFS 4.0 (Windows Server 2016)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuration"><a class="link" href="#configuration">Configuration</a></h2>
+<div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p>We assume that a server with an Active Directory Federation Services has been set up.</p>
+<p>On your AD FS server, <a href="adfs.ahtml">create and configure a Relying Party Trust &amp; an ADFS client</a></p>
 </li>
 <li>
-<p>The steps and screenshots presented below have been performed on AD FS 4. Except minor renaming, the steps on AD FS 3 are similar.</p>
+<p>In your Enonic XP admin interface</p>
+<div class="ulist">
+<ul>
+<li>
+<p>In the admin tool "Applications", install the application "ADFS ID Provider" .</p>
 </li>
 <li>
-<p>The steps and values are given as an example. Please adapt to your situation</p>
+<p>In the admin tool "Users", create an Id Provider and configure it to use the ADFS ID Provider.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>clientId: ADFS Client ID</p>
+</li>
+<li>
+<p>resource: Relying Party Trust identifier</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/idprov.png" alt="Installation" width="768">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In your Enonic Virtual Hosting configuration, modify the appropriate mappings so that your site or admin interface uses the user store you created.</p>
+<div class="literalblock">
+<div class="content">
+<pre># Use ADFS for a site mysite
+mapping.mysite.host = example.com
+mapping.mysite.source = /
+mapping.mysite.target = /site/default/master/mysite
+mapping.mysite.idProvider.adfs-idprovider = default</pre>
+</div>
+</div>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="check_that_the_endpoints_are_enabled"><a class="link" href="#check_that_the_endpoints_are_enabled">Check that the endpoints are enabled</a></h2>
+<h2 id="how_to_enable_debug_logging"><a class="link" href="#how_to_enable_debug_logging">How to enable debug logging</a></h2>
 <div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>In AD FS Management, check that the endpoints "/adfs/ls" and "/adfs/oauth2" are enabled</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Add the following to $XP_HOME/config/logback.xml and restart the server</p>
 </div>
-<div class="imageblock">
+<div class="literalblock">
 <div class="content">
-<img src="images/endpoint_enabled.png" alt="Installation">
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="create_a_relying_party_trust"><a class="link" href="#create_a_relying_party_trust">Create a Relying Party Trust</a></h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>In AD FS Management, add a Relying Party Trust.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/rpt-1.png" alt="Installation">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>On the "Welcome" page, choose "Claims aware" and click "Start".</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/rpt-2.png" alt="Installation">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>On the "Select Data Source" page, click "Enter data about the relying party manually", and then click "Next".</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/rpt-3.png" alt="Installation">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>On the "Specify Display Name" page, type a name in "Display name" and then click Next.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/rpt-4.png" alt="Installation">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>On the "Configure Certificate" page, click "Next".</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/rpt-5.png" alt="Installation">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>On the "Configure URL" page, click Next (Do not use SAML or WS)</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/rpt-6.png" alt="Installation">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>On the "Configure Identifiers" page, specify an identifier for this relying party, click "Add" to add it to the list, and then click "Next".</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Keep this information as it will be required for the ID Provider configuration as "resource"</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/rpt-7.png" alt="Installation">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>On the "Choose Access Control Policy" select a policy and click Next. For more information about Access Control Policies, see <a href="https://docs.microsoft.com/en-us/windows-server/identity/ad-fs/operations/access-control-policies-in-ad-fs">Access Control Policies in AD FS</a></p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/rpt-8.png" alt="Installation">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>On the "Ready to Add Trust" page, review the settings, and then click "Next" to save your relying party trust information</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/rpt-9.png" alt="Installation">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>On the "Finish" page, click "Close". This action automatically displays the "Edit Claim Rules" dialog box</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/rpt-10.png" alt="Installation">
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="create_a_rule_to_send_the_ldap_attributes_as_claims"><a class="link" href="#create_a_rule_to_send_the_ldap_attributes_as_claims">Create a rule to send the LDAP attributes as claims</a></h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>A dialog box "Edit Claim Issuance Policy" must have opened on the previous step.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Otherwise, right-click the created Relying Party Trust, and then click "Edit Claim Issuance Policy&#8230;&#8203;"</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/itr-1.png" alt="Installation">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>In the "Edit Claim Issuance Policy" dialog box, under "Issuance Transform Rules" click "Add Rule" to start the rule wizard.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/itr-2.png" alt="Installation">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>On the "Select Rule Template" page, under "Claim rule template", select "Send LDAP Attributes as Claims" from the list, and then click Next.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/itr-3.png" alt="Installation">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>On the "Configure Rule" page under "Claim rule name" type the display name for this rule, select the "Attribute Store", and then select the LDAP attribute and map it to the outgoing claim type.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>By default, the ID Provider is expecting the 5 mappings below (You will notice that the 2 last values are not present in the list of possible values but are valid values)</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Given-Name &#8594; Given-Name</p>
-</li>
-<li>
-<p>Surname &#8594; Surname</p>
-</li>
-<li>
-<p>User-Principal-Name &#8594; UPN</p>
-</li>
-<li>
-<p>objectSid &#8594; objectSid</p>
-</li>
-<li>
-<p>distinguishedName &#8594; dn</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/itr-4.png" alt="Installation" width="768">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Click the "Finish" button.</p>
-</li>
-<li>
-<p>In the "Edit Claim Rules" dialog box, click "OK" to save the rule.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="add_an_ad_fs_client"><a class="link" href="#add_an_ad_fs_client">Add an AD FS Client</a></h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>Using PowerShell, add an AD FS Client</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Choose a Client ID</p>
-<div class="ulist">
-<ul>
-<li>
-<p>You can either come up with this or use a generator <a href="https://www.guidgenerator.com/online-guid-generator.aspx">Online GUID Generator</a></p>
-</li>
-<li>
-<p>Keep this information as it will be required for the ID Provider configuration as "clientId"</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>The redirect URI to specify is "_/idprovider/&lt;idprovidername&gt;" appended to your Enonic VHost mapping source (your site URL).</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>Add-AdfsClient -RedirectUri "https://www.example.com/_/idprovider/adfs-idprovider" -ClientId "5d51f771-b86a-419e-ad25-27696aafc02e" -Name "MyADFS4Client"</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="grant_the_ad_fs_application_permission_to_the_resource_not_necessary_for_adfs_3_0"><a class="link" href="#grant_the_ad_fs_application_permission_to_the_resource_not_necessary_for_adfs_3_0">Grant the AD FS Application permission to the resource (Not necessary for ADFS 3.0)</a></h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>Using PowerShell, grant the AD FS Client permission to the resource</p>
-<div class="ulist">
-<ul>
-<li>
-<p>ClientRoleIdentifier: ClientId used in the command above</p>
-</li>
-<li>
-<p>ServerRoleIdentifier: Relying Party Trust identifier</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>Grant-AdfsApplicationPermission -ClientRoleIdentifier "5d51f771-b86a-419e-ad25-27696aafc02e" -ServerRoleIdentifier "https://rptidentifier.local"</code></pre>
+<pre>&lt;logger name="com.enonic.app.adfsidprovider" additivity="false"&gt;
+    &lt;level value="DEBUG" /&gt;
+    &lt;appender-ref ref="STDOUT"/&gt;
+    &lt;appender-ref ref="FILE"/&gt;
+&lt;/logger&gt;</pre>
 </div>
 </div>
 </div>
@@ -779,7 +532,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-06 09:30:40 UTC
+Last updated 2026-05-06 09:31:06 UTC
 </div>
 </div>
 </body>
