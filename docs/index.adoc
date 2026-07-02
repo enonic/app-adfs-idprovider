@@ -2,6 +2,8 @@
 :toc: right
 :imagesdir: images
 
+NOTE: Versions 2.x target XP 7+.
+
 Authenticate your users using Active Directory Federation Services.
 This ID Provider uses the OAuth2 endpoint of your AD FS to authenticate users.
 It is compatible with ADFS 3.0 (Windows Server 2012 R2) and ADFS 4.0 (Windows Server 2016)
