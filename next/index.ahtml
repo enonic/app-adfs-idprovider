@@ -497,7 +497,7 @@ It is compatible with ADFS 3.0 (Windows Server 2012 R2) and ADFS 4.0 (Windows Se
 <div class="ulist">
 <ul>
 <li>
-<p>In your Enonic Virtual Hosting configuration, modify the appropriate mappings so that your site or admin interface uses the user store you created.</p>
+<p>In your Enonic Virtual Hosting configuration, modify the appropriate mappings so that your site or admin interface uses the ID Provider you created.</p>
 <div class="literalblock">
 <div class="content">
 <pre># Use ADFS for a site mysite
@@ -532,7 +532,7 @@ mapping.mysite.idProvider.adfs-idprovider = default</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-06 09:31:06 UTC
+Last updated 2026-07-02 08:12:58 UTC
 </div>
 </div>
 </body>
