@@ -1,6 +1,6 @@
 [versions]
 http-client   = "4.0.1"
-text-encoding = "3.0.0"
+text-encoding = "3.0.1"
 
 [libraries]
 lib-http-client   = { module = "com.enonic.lib:lib-http-client",   version.ref = "http-client" }
