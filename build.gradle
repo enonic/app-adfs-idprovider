@@ -23,7 +23,7 @@ repositories {
 
 node {
     download = true
-    version = '16.0.0'
+    version = '16.20.2'
 }
 
 task copy_urijs( type: Copy, dependsOn: npmInstall ) {
